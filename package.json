@@ -1,0 +1,16 @@
+{
+  "name": "rest_api",
+  "version": "1.0.0",
+  "description": "REST API",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server/",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Óscar Eusse Flórez",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3"
+  }
+}
