@@ -27,10 +27,10 @@ app
       })
     }
   })
-  .put('/usuario/id', function (req, res) {
+  .put('/usuario/:id', function (req, res) {
     res.json('😊 PUT usuario')
   })
-  .delete('/usuario', function (req, res) {
+  .delete('/usuario/:id', function (req, res) {
     res.json('😎 DELETE (Change state) usuario')
   })
   .listen(process.env.PORT, err => {
