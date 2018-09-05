@@ -45,7 +45,7 @@ const usuarioSchema = new Schema({
  * Schema.methods.toJSON()
  * El método .toJSON() es el encargado de devolver el data convertida en JSON
  * Accedemos a modificar este método para eliminar la propiedad password
- * para que este no se muestre en la data que se devuelve en la API
+ * para que este no se muestre en la data que se devuelve como respuesta en la API
  */
 usuarioSchema.methods.toJSON = function() {
   const user = this

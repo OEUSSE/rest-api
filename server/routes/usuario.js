@@ -4,13 +4,15 @@ const _ = require('underscore')
 
 const Usuario = require('../models/usuario')
 
+const { verificaToken, verificaRole } = require('../middlewares/auth')
+
 const app = express()
 
-app.get('/usuario', function (req, res) {
+app.get('/usuario', verificaToken, (req, res) => {
   let desde = req.query.desde || 0
   desde = Number(desde)
 
-  let limite = req.query.limite || 5
+  let limite = req.query.limite || 20
   limite = Number(limite)
 
   Usuario
@@ -42,7 +44,7 @@ app.get('/usuario', function (req, res) {
     })
 })
 
-app.post('/usuario', function (req, res) {
+app.post('/usuario', [ verificaToken, verificaRole ], (req, res) => {
   const data = req.body
 
   const usuario = new Usuario({
@@ -65,11 +67,12 @@ app.post('/usuario', function (req, res) {
   })
 })
 
-app.put('/usuario/:id', function (req, res) {
+app.put('/usuario/:id', [ verificaToken, verificaRole ], (req, res) => {
   const { id } = req.params
   const data = _.pick(req.body, ['name', 'email', 'img', 'role', 'state'])
 
-  Usuario.findByIdAndUpdate(id, data, { new: true, runValidators: true }, (error, userDB) => {
+  Usuario.findByIdAndUpdate(id, data, { new: true, runValidators: false }, (error, userDB) => {
+    console.log(userDB)
     if (error) {
       return res.status(400).json({
         ok: false,
@@ -84,11 +87,11 @@ app.put('/usuario/:id', function (req, res) {
   })
 })
 
-app.delete('/usuario/:id', function (req, res) {
+app.delete('/usuario/:id', [ verificaToken, verificaRole ], (req, res) => {
   const { id } = req.params
 
   // Se marca el estado del usuario a false
-  Usuario.findByIdAndUpdate(id, { state: false }, (error, userDB) => {
+  Usuario.findByIdAndUpdate(id, { state: false }, { new: true }, (error, userDB) => {
     if (error) {
       return res.status(400).json({
         ok: false,
@@ -101,31 +104,6 @@ app.delete('/usuario/:id', function (req, res) {
       user: userDB
     })
   })
-
-  // Eliminar directamente el usuario de la DB
-
-  /* Usuario.findByIdAndRemove(id, (err, userDB) => {
-    if (err) {
-      return res.status(400).json({
-        ok: false,
-        error
-      })
-    }
-
-    if (!userDB) {
-      return res.status(400).json({
-        ok: false,
-        error:{
-          msg: 'Usuario no encontrado'
-        }
-      })
-    }
-
-    res.json({
-      ok: true,
-      user: userDB
-    })
-  }) */
 })
 
 module.exports = app
