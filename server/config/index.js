@@ -26,9 +26,20 @@ process.env.URLDB = urlDB
  * 24 horas
  * 30 días
  */
-process.env.CAUDICAD_TOKEN = 60 * 60 * 24 * 30
+process.env.CADUCIDAD_TOKEN = 60 * 60 * 24 * 30
 
 /**
  * SEED de autenticación
  */
 process.env.SEED = process.env.SEED || 'development-seed'
+
+/**
+ * Google Client
+ */
+process.env.CLIENT_ID = process.env.CLIENT_ID || '210901373234-4cat3hav55deji6s9ne8ui7juio3nu37.apps.googleusercontent.com'
+
+// Client ID
+
+
+// Client Secret
+'TucTIZC98je5KSdrBalm-5iO'
